@@ -1,6 +1,6 @@
 package com.example.restfulservice.controller;
 
-import com.example.restfulservice.bean.HelloWorldBean;
+import com.example.restfulservice.domain.HelloWorldBean;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

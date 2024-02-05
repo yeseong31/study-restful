@@ -1,4 +1,4 @@
-package com.example.restfulservice.bean;
+package com.example.restfulservice.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

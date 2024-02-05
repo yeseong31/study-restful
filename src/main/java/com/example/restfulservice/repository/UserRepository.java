@@ -14,4 +14,6 @@ public interface UserRepository {
     List<UserResponseDto> findAll();
 
     Optional<UserResponseDto> findById(Long id);
+
+    Long deleteById(Long id);
 }

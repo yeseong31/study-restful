@@ -13,6 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.util.List;
 
+import static java.lang.String.format;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -41,7 +43,17 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponseDto findById(@PathVariable("id") Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(
-                        String.format("ID[%s] not found", id)));
+                .orElseThrow(() -> new UserNotFoundException(format("ID[%s] not found", id)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+        Long deletedId = userRepository.deleteById(id);
+
+        if (deletedId == null) {
+            throw new UserNotFoundException(format("ID[%s] not found", id));
+        }
+
+        return ResponseEntity.noContent().build();
     }
 }

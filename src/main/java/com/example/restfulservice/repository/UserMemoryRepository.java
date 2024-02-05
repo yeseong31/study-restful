@@ -38,4 +38,14 @@ public class UserMemoryRepository implements UserRepository {
         User findUser = users.get(id);
         return Optional.of(new UserResponseDto(findUser));
     }
+
+    @Override
+    public Long deleteById(Long id) {
+        if (!users.containsKey(id)) {
+            return null;
+        }
+
+        users.remove(id);
+        return id;
+    }
 }

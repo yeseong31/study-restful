@@ -3,12 +3,14 @@ package com.example.restfulservice.domain;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 import static lombok.AccessLevel.PROTECTED;
 
 @Getter
+@Setter
 @NoArgsConstructor(access = PROTECTED)
 public class User {
 

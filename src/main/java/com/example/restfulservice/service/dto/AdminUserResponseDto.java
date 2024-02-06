@@ -28,6 +28,8 @@ public class AdminUserResponseDto {
     private String password;
     private String ssn;
 
+    private String grade;
+
     public AdminUserResponseDto(User entity) {
         this.id = entity.getId();
         this.name = entity.getName();

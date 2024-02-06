@@ -1,5 +1,6 @@
 package com.example.restfulservice.exception;
 
+import jakarta.annotation.Nullable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -18,33 +19,36 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler(Exception.class)
     public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(
-                LocalDateTime.now(),
-                ex.getMessage(),
-                request.getDescription(false));
+        ExceptionResponse exceptionResponse = ExceptionResponse.createBuilder()
+                .timestamp(LocalDateTime.now())
+                .message(ex.getMessage())
+                .details(request.getDescription(false))
+                .build();
 
         return new ResponseEntity<>(exceptionResponse, INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     public final ResponseEntity<Object> handleUserNotFoundException(Exception ex, WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(
-                LocalDateTime.now(),
-                ex.getMessage(),
-                request.getDescription(false));
+        ExceptionResponse exceptionResponse = ExceptionResponse.createBuilder()
+                .timestamp(LocalDateTime.now())
+                .message(ex.getMessage())
+                .details(request.getDescription(false))
+                .build();
 
         return new ResponseEntity<>(exceptionResponse, NOT_FOUND);
     }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatusCode status,
-                                                                  WebRequest request) {
-        ExceptionResponse exceptionResponse = new ExceptionResponse(
-                LocalDateTime.now(),
-                "Validation failed",
-                ex.getBindingResult().toString());
+                                                                  @Nullable HttpHeaders headers,
+                                                                  @Nullable HttpStatusCode status,
+                                                                  @Nullable WebRequest request) {
+        ExceptionResponse exceptionResponse = ExceptionResponse.createBuilder()
+                .timestamp(LocalDateTime.now())
+                .message("Validation failed")
+                .details(ex.getBindingResult().toString())
+                .build();
 
         return new ResponseEntity<>(exceptionResponse, BAD_REQUEST);
     }

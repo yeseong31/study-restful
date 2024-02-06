@@ -17,10 +17,14 @@ public class User {
     private String name;
     private LocalDateTime joinDate;
 
-    @Builder(builderMethodName = "createBuilder")
-    public User(Long id, String name) {
+    private User(Long id, String name) {
         this.id = id;
         this.name = name;
         this.joinDate = LocalDateTime.now();
+    }
+
+    @Builder(builderMethodName = "createBuilder")
+    public static User of(Long id, String name) {
+        return new User(id, name);
     }
 }

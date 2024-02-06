@@ -1,9 +1,9 @@
 package com.example.restfulservice.controller;
 
 import com.example.restfulservice.exception.UserNotFoundException;
-import com.example.restfulservice.repository.UserRepository;
 import com.example.restfulservice.repository.dto.UserResponseDto;
 import com.example.restfulservice.repository.dto.UserSaveRequestDto;
+import com.example.restfulservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,16 +24,16 @@ import static java.lang.String.format;
 @RequestMapping("users")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping
     public List<UserResponseDto> findAll() {
-        return userRepository.findAll();
+        return userService.findAll();
     }
 
     @PostMapping
     public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserSaveRequestDto requestDto) {
-        Long savedId = userRepository.save(requestDto);
+        Long savedId = userService.save(requestDto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -45,13 +45,12 @@ public class UserController {
 
     @GetMapping("/{id}")
     public UserResponseDto findById(@PathVariable("id") Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(format("ID[%s] not found", id)));
+        return userService.findById(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        Long deletedId = userRepository.deleteById(id);
+        Long deletedId = userService.deleteById(id);
 
         if (deletedId == null) {
             throw new UserNotFoundException(format("ID[%s] not found", id));

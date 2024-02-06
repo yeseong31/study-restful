@@ -1,5 +1,6 @@
 package com.example.restfulservice.domain;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,13 +17,10 @@ public class User {
     private String name;
     private LocalDateTime joinDate;
 
-    private User(Long id, String name) {
+    @Builder(builderMethodName = "createBuilder")
+    public User(Long id, String name) {
         this.id = id;
         this.name = name;
         this.joinDate = LocalDateTime.now();
-    }
-
-    public static User of(Long id, String name) {
-        return new User(id, name);
     }
 }

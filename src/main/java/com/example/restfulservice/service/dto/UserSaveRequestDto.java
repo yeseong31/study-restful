@@ -1,7 +1,6 @@
 package com.example.restfulservice.service.dto;
 
 import com.example.restfulservice.domain.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -13,7 +12,6 @@ import static lombok.AccessLevel.PROTECTED;
 @Getter
 @Setter
 @NoArgsConstructor(access = PROTECTED)
-@JsonIgnoreProperties(value = {"password", "ssn"})
 public class UserSaveRequestDto {
 
     private Long id;

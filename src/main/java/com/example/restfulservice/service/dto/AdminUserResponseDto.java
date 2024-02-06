@@ -1,6 +1,7 @@
 package com.example.restfulservice.service.dto;
 
 import com.example.restfulservice.domain.User;
+import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonFilter("UserInfo")
 @JsonIgnoreProperties(value = {"password",})
 public class AdminUserResponseDto {
 

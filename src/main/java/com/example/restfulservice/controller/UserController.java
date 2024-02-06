@@ -1,8 +1,8 @@
 package com.example.restfulservice.controller;
 
 import com.example.restfulservice.exception.UserNotFoundException;
-import com.example.restfulservice.repository.dto.UserResponseDto;
-import com.example.restfulservice.repository.dto.UserSaveRequestDto;
+import com.example.restfulservice.service.dto.UserResponseDto;
+import com.example.restfulservice.service.dto.UserSaveRequestDto;
 import com.example.restfulservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

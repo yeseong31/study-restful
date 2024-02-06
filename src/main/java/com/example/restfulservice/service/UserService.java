@@ -3,8 +3,8 @@ package com.example.restfulservice.service;
 import com.example.restfulservice.domain.User;
 import com.example.restfulservice.exception.UserNotFoundException;
 import com.example.restfulservice.repository.UserRepository;
-import com.example.restfulservice.repository.dto.UserResponseDto;
-import com.example.restfulservice.repository.dto.UserSaveRequestDto;
+import com.example.restfulservice.service.dto.UserResponseDto;
+import com.example.restfulservice.service.dto.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.restfulservice.repository.dto;
+package com.example.restfulservice.service.dto;
 
 import com.example.restfulservice.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

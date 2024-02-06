@@ -1,11 +1,12 @@
 package com.example.restfulservice.repository;
 
 import com.example.restfulservice.domain.User;
-import com.example.restfulservice.repository.dto.UserResponseDto;
-import com.example.restfulservice.repository.dto.UserSaveRequestDto;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserMemoryRepository implements UserRepository {
@@ -14,29 +15,24 @@ public class UserMemoryRepository implements UserRepository {
     private static long sequence = 0L;
 
     @Override
-    public Long save(UserSaveRequestDto requestDto) {
-        requestDto.setId(++sequence);
-        users.put(
-                requestDto.getId(),
-                requestDto.toEntity());
+    public Long save(User user) {
+        user.setId(++sequence);
+        users.put(sequence, user);
         return sequence;
     }
 
     @Override
-    public List<UserResponseDto> findAll() {
-        return users.values().stream()
-                .map(UserResponseDto::new)
-                .toList();
+    public List<User> findAll() {
+        return users.values().stream().toList();
     }
 
     @Override
-    public Optional<UserResponseDto> findById(Long id) {
+    public Optional<User> findById(Long id) {
         if (!users.containsKey(id)) {
             return Optional.empty();
         }
 
-        User findUser = users.get(id);
-        return Optional.of(new UserResponseDto(findUser));
+        return Optional.ofNullable(users.get(id));
     }
 
     @Override

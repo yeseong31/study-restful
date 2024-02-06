@@ -1,18 +1,17 @@
 package com.example.restfulservice.repository;
 
-import com.example.restfulservice.repository.dto.UserResponseDto;
-import com.example.restfulservice.repository.dto.UserSaveRequestDto;
+import com.example.restfulservice.domain.User;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
 
-    Long save(UserSaveRequestDto requestDto);
+    Long save(User user);
 
-    List<UserResponseDto> findAll();
+    List<User> findAll();
 
-    Optional<UserResponseDto> findById(Long id);
+    Optional<User> findById(Long id);
 
     Long deleteById(Long id);
 }

@@ -16,15 +16,19 @@ public class User {
 
     private String name;
     private LocalDateTime joinDate;
+    private String password;
+    private String ssn;
 
-    private User(Long id, String name) {
+    private User(Long id, String name, String password, String ssn) {
         this.id = id;
         this.name = name;
         this.joinDate = LocalDateTime.now();
+        this.password = password;
+        this.ssn = ssn;
     }
 
     @Builder(builderMethodName = "createBuilder")
-    public static User of(Long id, String name) {
-        return new User(id, name);
+    public static User of(Long id, String name, String password, String ssn) {
+        return new User(id, name, password, ssn);
     }
 }

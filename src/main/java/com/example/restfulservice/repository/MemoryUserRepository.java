@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
-public class UserMemoryRepository implements UserRepository {
+public class MemoryUserRepository implements UserRepository {
 
     private static final Map<Long, User> users = new HashMap<>();
     private static long sequence = 0L;

@@ -4,6 +4,11 @@ import com.example.restfulservice.exception.UserNotFoundException;
 import com.example.restfulservice.service.UserService;
 import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +27,7 @@ import static java.lang.String.format;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Tag(name = "user-controller", description = "일반 사용자 서비스를 위한 컨트롤러")
 @Slf4j
 @Validated
 @RestController
@@ -31,6 +37,15 @@ public class UserController {
 
     private final UserService userService;
 
+    @Operation(
+            summary = "사용자 목록 조회 API",
+            description = "전체 사용자 목록을 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "User Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping
     public CollectionModel<UserResponseDto> findAll() {
         List<UserResponseDto> responseDtos = userService.findAll();
@@ -42,8 +57,21 @@ public class UserController {
         return entityModel;
     }
 
+    @Operation(
+            summary = "사용자 회원 가입 API",
+            description = "사용자 정보를 입력받아 회원 가입을 진행합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "User Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @PostMapping
-    public ResponseEntity<UserResponseDto> save(@Valid @RequestBody UserSaveRequestDto requestDto) {
+    public ResponseEntity<UserResponseDto> save(
+            @Valid
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "사용자 회원 가입 요청 DTO")
+            @RequestBody UserSaveRequestDto requestDto) {
+
         Long savedId = userService.save(requestDto);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -54,8 +82,19 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
+    @Operation(
+            summary = "사용자 정보 조회 API",
+            description = "사용자 ID를 통해 사용자 상세 정보를 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "User Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @GetMapping("/{id}")
-    public EntityModel<UserResponseDto> findById(@PathVariable("id") Long id) {
+    public EntityModel<UserResponseDto> findById(
+            @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable("id") Long id) {
+
         UserResponseDto responseDto = userService.findById(id);
         EntityModel<UserResponseDto> entityModel = EntityModel.of(responseDto);
 
@@ -65,8 +104,19 @@ public class UserController {
         return entityModel;
     }
 
+    @Operation(
+            summary = "사용자 삭제 API",
+            description = "사용자 ID를 통해 사용자를 삭제합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "User Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<?> delete(
+            @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable("id") Long id) {
+
         Long deletedId = userService.deleteById(id);
 
         if (deletedId == null) {

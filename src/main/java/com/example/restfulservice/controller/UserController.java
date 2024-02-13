@@ -1,12 +1,15 @@
 package com.example.restfulservice.controller;
 
 import com.example.restfulservice.exception.UserNotFoundException;
+import com.example.restfulservice.service.UserService;
 import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
-import com.example.restfulservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,8 @@ import java.net.URI;
 import java.util.List;
 
 import static java.lang.String.format;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @Slf4j
 @Validated
@@ -27,8 +32,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public List<UserResponseDto> findAll() {
-        return userService.findAll();
+    public CollectionModel<UserResponseDto> findAll() {
+        List<UserResponseDto> responseDtos = userService.findAll();
+        CollectionModel<UserResponseDto> entityModel = CollectionModel.of(responseDtos);
+
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findAll());
+        entityModel.add(linkTo.withRel("all-users"));  // all-users -> http://localhost:8080/users
+
+        return entityModel;
     }
 
     @PostMapping
@@ -44,8 +55,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public UserResponseDto findById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    public EntityModel<UserResponseDto> findById(@PathVariable("id") Long id) {
+        UserResponseDto responseDto = userService.findById(id);
+        EntityModel<UserResponseDto> entityModel = EntityModel.of(responseDto);
+
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findById(id));
+        entityModel.add(linkTo.withRel("user"));  // user -> http://localhost:8080/user/{id}
+
+        return entityModel;
     }
 
     @DeleteMapping("/{id}")

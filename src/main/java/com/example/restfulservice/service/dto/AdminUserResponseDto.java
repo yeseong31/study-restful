@@ -22,9 +22,9 @@ public class AdminUserResponseDto {
     @Schema(title = "사용자 ID")
     private Long id;
 
+    @Schema(title = "사용자 이름")
     @NotBlank
     @Size(min = 2, max = 20, message = "이름은 2 ~ 20자 이내여야 합니다.")
-    @Schema(title = "사용자 이름")
     private String name;
 
     @Schema(title = "가입일")

@@ -47,14 +47,14 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping
-    public CollectionModel<UserResponseDto> findAll() {
+    public ResponseEntity<CollectionModel<UserResponseDto>> findAll() {
         List<UserResponseDto> responseDtos = userService.findAll();
         CollectionModel<UserResponseDto> entityModel = CollectionModel.of(responseDtos);
 
         WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findAll());
         entityModel.add(linkTo.withRel("all-users"));  // all-users -> http://localhost:8080/users
 
-        return entityModel;
+        return ResponseEntity.ok(entityModel);
     }
 
     @Operation(
@@ -92,7 +92,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @GetMapping("/{id}")
-    public EntityModel<UserResponseDto> findById(
+    public ResponseEntity<EntityModel<UserResponseDto>> findById(
             @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable("id") Long id) {
 
         UserResponseDto responseDto = userService.findById(id);
@@ -101,7 +101,7 @@ public class UserController {
         WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findById(id));
         entityModel.add(linkTo.withRel("user"));  // user -> http://localhost:8080/user/{id}
 
-        return entityModel;
+        return ResponseEntity.ok(entityModel);
     }
 
     @Operation(
@@ -114,7 +114,7 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(
+    public ResponseEntity<UserResponseDto> delete(
             @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable("id") Long id) {
 
         Long deletedId = userService.deleteById(id);

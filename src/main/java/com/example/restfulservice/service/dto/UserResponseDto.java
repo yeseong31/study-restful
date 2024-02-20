@@ -3,6 +3,7 @@ package com.example.restfulservice.service.dto;
 import com.example.restfulservice.domain.User;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +23,7 @@ public class UserResponseDto {
     @Schema(title = "사용자 이름")
     private String name;
 
+    @Past
     @Schema(title = "가입일")
     private LocalDateTime joinDate;
 

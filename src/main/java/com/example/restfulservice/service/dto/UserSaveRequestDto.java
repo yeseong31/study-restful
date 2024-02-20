@@ -2,6 +2,7 @@ package com.example.restfulservice.service.dto;
 
 import com.example.restfulservice.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,12 +17,15 @@ public class UserSaveRequestDto {
     private Long id;
 
     @Schema(title = "사용자 이름", description = "사용자 이름을 입력합니다.")
+    @NotEmpty(message = "사용자 이름은 공백일 수 없습니다.")
     private String name;
 
     @Schema(title = "비밀번호", description = "사용자의 비밀번호를 입력해 주세요.")
+    @NotEmpty(message = "비밀번호는 공백일 수 없습니다.")
     private String password;
 
     @Schema(title = "주민등록번호", description = "사용자의 주민등록번호를 입력해 주세요.")
+    @NotEmpty(message = "주민등록번호는 공백일 수 없습니다.")
     private String ssn;
 
     public User toEntity() {

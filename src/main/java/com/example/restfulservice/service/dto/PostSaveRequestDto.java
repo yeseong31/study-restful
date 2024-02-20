@@ -3,6 +3,8 @@ package com.example.restfulservice.service.dto;
 import com.example.restfulservice.domain.Post;
 import com.example.restfulservice.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,12 +19,15 @@ public class PostSaveRequestDto {
     private Long id;
 
     @Schema(title = "게시글 작성자 ID", description = "게시글 작성자 ID를 입력해 주세요.")
+    @NotNull(message = "게시글 작성자 ID는 공백일 수 없습니다.")
     private Long ownerId;
 
     @Schema(title = "게시글 제목", description = "게시글 제목을 입력해 주세요.")
+    @NotEmpty(message = "게시글 제목은 공백일 수 없습니다.")
     private String title;
 
     @Schema(title = "게시글 본문", description = "게시글 본문을 입력해 주세요.")
+    @NotEmpty(message = "게시글 본문은 공백일 수 없습니다.")
     private String content;
 
     public Post toEntity(final User owner) {

@@ -31,7 +31,6 @@ public class User {
     @Size(min = 2, max = 20, message = "이름은 2 ~ 20자 이내여야 합니다.")
     private String name;
 
-    @Past
     private LocalDateTime joinDate;
 
     @NotBlank
@@ -55,5 +54,13 @@ public class User {
     @Builder(builderMethodName = "createBuilder")
     public static User of(Long id, String name, String password, String ssn) {
         return new User(id, name, password, ssn);
+    }
+
+    // ===연관 관계 메서드===
+    public void addPost(final Post post) {
+        posts.add(post);
+        if (post.getOwner() != this) {
+            post.registerOwner(this);
+        }
     }
 }

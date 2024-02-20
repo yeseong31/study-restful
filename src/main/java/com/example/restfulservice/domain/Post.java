@@ -32,10 +32,23 @@ public class Post {
         this.owner = owner;
         this.title = title;
         this.content = content;
+        owner.addPost(this);
     }
 
     @Builder(builderMethodName = "createBuilder")
     public static Post of(Long id, User owner, String title, String content) {
         return new Post(id, owner, title, content);
+    }
+
+    // ===연관 관계 메서드===
+    public void registerOwner(final User owner) {
+        if (this.owner != null) {
+            owner.getPosts().remove(this);
+        }
+
+        this.owner = owner;
+        if (!owner.getPosts().contains(this)) {
+            owner.getPosts().add(this);
+        }
     }
 }

@@ -7,17 +7,20 @@ import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static java.lang.String.format;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserService {
 
     private final JpaUserRepository userRepository;
 
+    @Transactional
     public Long save(UserSaveRequestDto requestDto) {
         return userRepository.save(requestDto.toEntity()).getId();
     }
@@ -36,11 +39,11 @@ public class UserService {
         return new UserResponseDto(findUser);
     }
 
-    public Long deleteById(Long id) {
+    @Transactional
+    public void deleteById(Long id) {
         userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(format("ID[%s] not found", id)));
 
         userRepository.deleteById(id);
-        return id;
     }
 }

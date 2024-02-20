@@ -1,4 +1,4 @@
-package com.example.restfulservice.controller;
+package com.example.restfulservice.controller.admin;
 
 import com.example.restfulservice.service.UserService;
 import com.example.restfulservice.service.dto.AdminUserResponseDto;
@@ -19,18 +19,18 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * mime-type 또는 Accept 값을 통한 버전 관리 (일반 브라우저에서 실행 불가)
+ * 쿼리 스트링을 통한 버전 관리
  */
 @Slf4j
 @Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("admin/users")
-public class AdminUserControllerV3_3 {
+public class AdminUserControllerV3_1 {
 
     private final UserService userService;
 
-    @GetMapping(produces = "application/vnd.company.appv1+json")
+    @GetMapping(params = "version=3")
     public MappingJacksonValue findAll4Admin() {
         List<AdminUserResponseDto> adminUserResponseDtoResults = userService.findAll().stream()
                 .map(userResponseDto -> {
@@ -46,7 +46,7 @@ public class AdminUserControllerV3_3 {
         return mappingJacksonValue;
     }
 
-    @GetMapping(value = "/{id}", produces = "application/vnd.company.appv2+json")
+    @GetMapping(value = "/{id}", params = "version=3")
     public MappingJacksonValue findById4Admin(@PathVariable("id") Long id) {
         UserResponseDto userResponseDto = userService.findById(id);
         AdminUserResponseDto adminUserResponseDto = new AdminUserResponseDto();

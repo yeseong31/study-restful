@@ -58,7 +58,10 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ExceptionResponse exceptionResponse = ExceptionResponse.createBuilder()
                 .timestamp(LocalDateTime.now())
                 .message("Validation failed")
-                .details(ex.getBindingResult().toString())
+                .details(ex.getBindingResult()
+                        .getAllErrors()
+                        .getFirst()
+                        .getDefaultMessage())
                 .build();
 
         return new ResponseEntity<>(exceptionResponse, BAD_REQUEST);

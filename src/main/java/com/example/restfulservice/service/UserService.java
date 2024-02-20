@@ -2,7 +2,7 @@ package com.example.restfulservice.service;
 
 import com.example.restfulservice.domain.User;
 import com.example.restfulservice.exception.UserNotFoundException;
-import com.example.restfulservice.repository.UserRepository;
+import com.example.restfulservice.repository.JpaUserRepository;
 import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +16,10 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final JpaUserRepository userRepository;
 
     public Long save(UserSaveRequestDto requestDto) {
-        return userRepository.save(requestDto.toEntity());
+        return userRepository.save(requestDto.toEntity()).getId();
     }
 
     public List<UserResponseDto> findAll() {
@@ -37,6 +37,10 @@ public class UserService {
     }
 
     public Long deleteById(Long id) {
-        return userRepository.deleteById(id);
+        userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(format("ID[%s] not found", id)));
+
+        userRepository.deleteById(id);
+        return id;
     }
 }

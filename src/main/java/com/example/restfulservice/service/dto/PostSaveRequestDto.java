@@ -16,8 +16,8 @@ public class PostSaveRequestDto {
     @Schema(title = "게시글 ID", description = "게시글 ID는 자동으로 생성됩니다.")
     private Long id;
 
-    @Schema(title = "게시글 작성자 정보", description = "게시글 작성자 정보를 입력해 주세요.")
-    private User owner;
+    @Schema(title = "게시글 작성자 ID", description = "게시글 작성자 ID를 입력해 주세요.")
+    private Long ownerId;
 
     @Schema(title = "게시글 제목", description = "게시글 제목을 입력해 주세요.")
     private String title;
@@ -25,7 +25,7 @@ public class PostSaveRequestDto {
     @Schema(title = "게시글 본문", description = "게시글 본문을 입력해 주세요.")
     private String content;
 
-    public Post toEntity() {
+    public Post toEntity(final User owner) {
         return Post.createBuilder()
                 .id(id)
                 .owner(owner)

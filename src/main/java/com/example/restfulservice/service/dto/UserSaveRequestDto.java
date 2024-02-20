@@ -2,8 +2,6 @@ package com.example.restfulservice.service.dto;
 
 import com.example.restfulservice.domain.User;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,8 +16,6 @@ public class UserSaveRequestDto {
     private Long id;
 
     @Schema(title = "사용자 이름", description = "사용자 이름을 입력합니다.")
-    @NotBlank
-    @Size(min = 2, max = 20, message = "이름은 2 ~ 20자 이내여야 합니다.")
     private String name;
 
     @Schema(title = "비밀번호", description = "사용자의 비밀번호를 입력해 주세요.")

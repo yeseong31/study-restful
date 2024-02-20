@@ -1,6 +1,7 @@
 package com.example.restfulservice.controller;
 
 import com.example.restfulservice.service.UserService;
+import com.example.restfulservice.service.dto.PostResponseDto;
 import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,9 +37,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @Operation(
-            summary = "사용자 목록 조회 API",
-            description = "전체 사용자 목록을 조회합니다.")
+    @Operation(summary = "사용자 목록 조회 API", description = "전체 사용자 목록을 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -61,9 +60,7 @@ public class UserController {
         return ResponseEntity.ok(entityModel);
     }
 
-    @Operation(
-            summary = "사용자 회원 가입 API",
-            description = "사용자 정보를 입력받아 회원 가입을 진행합니다.")
+    @Operation(summary = "사용자 회원 가입 API", description = "사용자 정보를 입력받아 회원 가입을 진행합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -86,9 +83,7 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @Operation(
-            summary = "사용자 정보 조회 API",
-            description = "사용자 ID를 통해 사용자 상세 정보를 조회합니다.")
+    @Operation(summary = "사용자 정보 조회 API", description = "사용자 ID를 통해 사용자 상세 정보를 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -108,9 +103,7 @@ public class UserController {
         return ResponseEntity.ok(entityModel);
     }
 
-    @Operation(
-            summary = "사용자 삭제 API",
-            description = "사용자 ID를 통해 사용자를 삭제합니다.")
+    @Operation(summary = "사용자 삭제 API", description = "사용자 ID를 통해 사용자를 삭제합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "400", description = "Bad Request"),
@@ -123,5 +116,30 @@ public class UserController {
 
         userService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "사용자 ID를 통한 게시글 목록 조회 API", description = "사용자 ID를 통해 게시글 전체 목록을 조회합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "400", description = "Bad Request"),
+            @ApiResponse(responseCode = "404", description = "User Not Found"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @GetMapping("/{id}/posts")
+    public ResponseEntity<EntityModel<Map<String, Object>>> findAllPostsByUserId(
+            @Parameter(description = "사용자 ID", required = true, example = "1") @PathVariable("id") Long id) {
+
+        List<PostResponseDto> responseDtoes = userService.findPosts(id);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("posts", responseDtoes);
+        result.put("count", responseDtoes.size());
+
+        EntityModel<Map<String, Object>> entityModel = EntityModel.of(result);
+
+        WebMvcLinkBuilder linkTo = linkTo(methodOn(this.getClass()).findAll());
+        entityModel.add(linkTo.withRel("all-posts"));
+
+        return ResponseEntity.ok(entityModel);
     }
 }

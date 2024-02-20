@@ -19,6 +19,7 @@ public class Post {
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "user_id")
     private User owner;
 
     private String title;

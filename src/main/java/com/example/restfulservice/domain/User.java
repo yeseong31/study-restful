@@ -41,7 +41,7 @@ public class User {
     @NotBlank
     private String ssn;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "owner")
     private List<Post> posts = new ArrayList<>();
 
     private User(Long id, String name, String password, String ssn) {

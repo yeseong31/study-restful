@@ -1,17 +1,9 @@
 package com.example.restfulservice.repository;
 
 import com.example.restfulservice.domain.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface UserRepository {
-
-    Long save(User user);
-
-    List<User> findAll();
-
-    Optional<User> findById(Long id);
-
-    Long deleteById(Long id);
+@Repository
+public interface UserRepository extends JpaRepository<User, Long>{
 }

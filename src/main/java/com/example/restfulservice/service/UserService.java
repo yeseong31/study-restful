@@ -2,7 +2,7 @@ package com.example.restfulservice.service;
 
 import com.example.restfulservice.domain.User;
 import com.example.restfulservice.exception.UserNotFoundException;
-import com.example.restfulservice.repository.JpaUserRepository;
+import com.example.restfulservice.repository.UserRepository;
 import com.example.restfulservice.service.dto.PostResponseDto;
 import com.example.restfulservice.service.dto.UserResponseDto;
 import com.example.restfulservice.service.dto.UserSaveRequestDto;
@@ -19,7 +19,7 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final JpaUserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long save(UserSaveRequestDto requestDto) {

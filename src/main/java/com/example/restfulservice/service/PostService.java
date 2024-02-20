@@ -4,8 +4,8 @@ import com.example.restfulservice.domain.Post;
 import com.example.restfulservice.domain.User;
 import com.example.restfulservice.exception.PostNotFoundException;
 import com.example.restfulservice.exception.UserNotFoundException;
-import com.example.restfulservice.repository.JpaPostRepository;
-import com.example.restfulservice.repository.JpaUserRepository;
+import com.example.restfulservice.repository.PostRepository;
+import com.example.restfulservice.repository.UserRepository;
 import com.example.restfulservice.service.dto.PostResponseDto;
 import com.example.restfulservice.service.dto.PostSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ import static java.lang.String.format;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final JpaPostRepository postRepository;
-    private final JpaUserRepository userRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public Long save(PostSaveRequestDto requestDto) {
